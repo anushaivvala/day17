@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Async programming- Day -1 : Callback</title>
+</head>
+<body>
+
+
+	<h2>To see the results using CTRL+SHIFT_i for Callback</h2>
+	<p>In JavaScript, asynchronous programming can be achieved using callbacks. A callback is a function that is passed as an argument to another function and is executed after the completion of that function's task. It is commonly used in scenarios where tasks may take some time to complete, like reading files, making API calls, or handling user input.</p>
+
+	<h2>Use & the purpose of the callback</h2>
+	<p>Usage and Purpose of the Callback:
+In this example, the fetchDataFromServer function is a mock representation of an asynchronous operation that fetches data from a server or API. However, due to its asynchronous nature, it doesn't return the data directly. Instead, it uses a callback to handle the fetched data once it becomes available.
+The purpose of using a callback is to handle the data asynchronously. Here's how it works:
+
+<li>fetchDataFromServer: This function simulates an asynchronous operation with a delay of 2 seconds using setTimeout. It takes a single argument, which is the callback function.</li>
+<li>handleData: This is the callback function passed to fetchDataFromServer. Its purpose is to handle the fetched data once it's available. In this example, the callback simply logs the received data to the console.</li>
+<li>setTimeout: The use of setTimeout simulates the time it takes to retrieve data from a server or perform any other time-consuming operation.</li>
+<li>Execution Flow: When fetchDataFromServer is called, it schedules the execution of the callback (handleData) after a 2-second delay. During this delay, the rest of the script continues executing.</li>
+<li>Event Loop: The event loop continuously checks the call stack and the queue. After the 2-second delay, it moves the callback function (handleData) from the queue to the call stack.</li>
+<li>Execution of Callback: The callback function (handleData) is then executed from the call stack, receiving the fetched data as an argument. In a real-world scenario, this is where you would perform any data manipulation, update the UI, or trigger other actions based on the received data.</li>
+<li>"End of script": The script continues to execute after handling the fetched data, and in this example, it logs "End of script" to the console.</li><br>
+
+In summary, the purpose of the callback in this example is to handle data asynchronously, allowing the main execution flow to continue while waiting for the data to be fetched. This pattern is commonly used in JavaScript to work with asynchronous operations like AJAX requests, file reading, or API calls. It helps avoid blocking the main thread and provides a way to handle data when it becomes available.</p><br>
+
+<h2></h2>
+<p>Certainly! Let's create an example to illustrate the pain points of using nested callbacks, commonly known as "callback hell." This occurs when multiple asynchronous operations depend on the results of each other, leading to deeply nested and hard-to-read code.<br>In this example, we have three functions, fetchDataFromServer, processUserData, and displayDataOnUI, each simulating an asynchronous operation using setTimeout. We then call these functions sequentially, passing nested callbacks to handle the results.
+
+<h2>Pain Points of Callback Hell:Check in CONSOLE for results</h2>
+<li>Readability: The code becomes difficult to read and understand due to the nesting of multiple callbacks, making it hard to follow the flow of execution.</li>
+<li>Maintainability: As more asynchronous operations are added or changes are made, the nested structure becomes even more complicated and challenging to maintain.Error Handling: Error handling can become cumbersome in callback hell, as you need to manage errors across multiple levels of nesting.</li>
+<li>Error Handling: Error handling can become cumbersome in callback hell, as you need to manage errors across multiple levels of nesting.</li>
+<li>Code Duplication: If multiple operations depend on the same data, you might end up duplicating code across different nested callbacks.</li>
+<li>Debugging: Debugging nested callbacks can be tricky, as errors might not always originate from the immediately surrounding callback.</li>
+<p>To alleviate the pain of callback hell, modern JavaScript introduced alternative solutions like Promises and async/await. These approaches provide cleaner and more readable code for handling asynchronous operations, making the codebase more maintainable and less error-prone.</p>
+
+</p>
+
+	<script type="text/javascript">
+		
+		// Function with a callback
+function fetchDataFromServer(callback) {
+  // Simulate an API call with setTimeout
+  setTimeout(() => {
+    const data = { name: "Anusha", age: 26 };
+    callback(data); // Execute the callback with the fetched data
+  }, 2000); // Simulate a delay of 2 seconds
+}
+
+// Callback function to handle the fetched data
+function handleData(data) {
+  console.log("Received data:", data);
+}
+
+// Call the function with the callback
+fetchDataFromServer(handleData);
+
+console.log("End of script");
+
+
+function fetchDataFromServer(callback) { setTimeout(() => { const data = { name: "Anusha", age: 26 }; callback(data); }, 2000); } function processUserData(userData, callback) { setTimeout(() => { const processedData = `${userData.name} is ${userData.age} years old.`; callback(processedData); }, 1000); } function displayDataOnUI(processedData, callback) { setTimeout(() => { console.log("Displaying data using nested callbacks:", processedData); callback(); }, 500); } 
+
+ fetchDataFromServer((data) => { processUserData(data, (processedData) => { displayDataOnUI(processedData, () => { console.log("End of script"); }); }); }); 
+
+	</script>
+
+</body>
+</html>
